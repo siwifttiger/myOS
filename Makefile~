@@ -1,0 +1,7 @@
+nasm -o boot.bin -l ipl.lst helloos2.img
+
+
+dd of=helloos.img bs=512 count=2880
+dd if=boot.bin of=helloos.img bs=512 count=2880
+
+qemu-system-i386 -fda helloos.img
