@@ -1,0 +1,82 @@
+     1                                  	org 0x7c00    ;程序装载地址
+     2                                  ;以下程序指明FAT12格式的软盘
+     3                                  
+     4 00000000 EB4E                    		jmp entry
+     5 00000002 90                      		db 0x90
+     6 00000003 48454C4C4F49504C        		DB		"HELLOIPL"		;启动区名称 8字节
+     7 0000000B 0002                    		DW		512				;每个sector的大小 512字节
+     8 0000000D 01                      		DB		1				;簇（cluster）大小 1个扇区
+     9 0000000E 0100                    		DW		1				;FAT起始位置
+    10 00000010 02                      		DB		2				;FAT个数
+    11 00000011 E000                    		DW		224				;根目录大小
+    12 00000013 400B                    		DW		2880			;磁盘大小 2880sector
+    13 00000015 F0                      		DB		0xf0			;磁盘种类
+    14 00000016 0900                    		DW		9				;FAT长度
+    15 00000018 1200                    		DW		18				;1 track多少扇区
+    16 0000001A 0200                    		DW		2				;磁头数
+    17 0000001C 00000000                		DD		0				;不使用分区
+    18 00000020 400B0000                		DD		2880			;重写磁盘大小
+    19 00000024 000029                  		DB		0,0,0x29		;固定
+    20 00000027 FFFFFFFF                		DD		0xffffffff		;卷标
+    21 0000002B 536C65662D4F532020-     		DB		"Slef-OS    "	;磁盘名称 11字节
+    22 00000034 2020               
+    23 00000036 4641543132202020        		DB		"FAT12   "		;磁盘格式名称 8字节
+    24 0000003E <res 00000012>          		RESB	18				;空18字节
+    25          ******************       warning: uninitialized space declared in .text section: zeroing
+    26                                  	entry:
+    27 00000050 B80000                  		mov ax,0
+    28 00000053 8ED0                    		mov ss,ax
+    29 00000055 BC007C                  		mov sp,0x7c00
+    30 00000058 8ED8                    		mov ds,ax
+    31                                  		
+    32                                  		
+    33                                  ;新增部分 读取软盘第2个扇区
+    34 0000005A B82008                  		mov ax,0x0820
+    35 0000005D 8EC0                    		mov es,ax                        ;es*16+bx
+    36 0000005F B500                    		mov ch,0	                 ;柱面0
+    37 00000061 B600                    		mov dh,0                         ;磁头0
+    38 00000063 B102                    		mov cl,2                         ;扇区2
+    39                                  		
+    40 00000065 B402                    		mov ah,0x02                      ;ah=0x02 读盘功能
+    41 00000067 B001                    		mov al,1                         ;读一个扇区
+    42 00000069 BB0000                  		mov bx,0                         ;es:bx = 缓冲地址 就是内存地址，从软盘读出的数据将要放到这个地址
+    43 0000006C B200                    		mov dl,0x00                      ;A驱动器
+    44 0000006E CD13                    		int 0x13                         ;调用磁盘BIOS 0x13中断
+    45 00000070 7203                    		jc error                         ;进位标志是1的话，就跳转
+    46                                  						 ;如果能正常调用int 0x13中断读软盘的话，进位标志就是0
+    47                                  						 ;否则进位标志就是1（进位标志为FLACS.CF）
+    48                                  	fin:
+    49 00000072 F4                      		hlt                              ;如果正常加载成功的话，就finish 进入停机状态
+    50 00000073 EBFD                    		jmp fin
+    51                                  	error:
+    52 00000075 BE[8A00]                		mov si,msg
+    53                                  	putloop:
+    54 00000078 8A04                    		mov al,byte[si]
+    55 0000007A 83C601                  		add si,1
+    56 0000007D 3C00                    		cmp al,0
+    57 0000007F 74F1                    		je fin                           ;输出完提示信息后，也进入停机
+    58 00000081 B40E                    		mov ah,0x0e
+    59 00000083 BB1500                  		mov bx,15h
+    60 00000086 CD10                    		int 0x10
+    61 00000088 EBEE                    		jmp putloop
+    62                                  
+    63                                  	msg:
+    64 0000008A 0A0A                    		db 0x0a,0x0a
+    65 0000008C 6C6F6164206572726F-     		db "load error!"
+    66 00000095 7221               
+    67 00000097 0A                      		db 0x0a
+    68 00000098 00                      		db 0
+    69 00000099 <res 00000165>          	resb 0x1fe-($-$$)
+    70          ******************       warning: uninitialized space declared in .text section: zeroing
+    71 000001FE 55AA                    	db 0x55,0xaa		
+    72                                  
+    73                                  
+    74                                  ;启动区以外的输出
+    75                                  
+    76 00000200 F0FFFF0000000000        		DB		0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00
+    77 00000208 <res 000011F8>          		RESB	4600
+    78          ******************       warning: uninitialized space declared in .text section: zeroing
+    79 00001400 F0FFFF0000000000        		DB		0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00
+    80 00001408 <res 00166BF8>          		RESB	1469432
+    81          ******************       warning: uninitialized space declared in .text section: zeroing
+    82                                  
