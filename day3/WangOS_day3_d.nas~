@@ -1,5 +1,5 @@
 CYLS EQU 10           ;定义 CYLS等于10
-	;org 0x7c00    ;程序装载地址
+	org 0x7c00    ;程序装载地址
 ;以下程序指明FAT12格式的软盘
 
 		jmp entry
