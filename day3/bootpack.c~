@@ -10,7 +10,7 @@ void HariMain(void)
 {
 	int i;
 	for(i = 0xa0000; i <= 0xaffff;i++){   //VRAM 的地址
-		write_mem8(i,15);             //第15种颜色是白色
+		write_mem8(i,17);             //第15种颜色是白色
 	}
 	for(;;){
 		io_hlt();
