@@ -1,7 +1,8 @@
 # myOS
 ubuntu下30天自制操作系统（#吹牛逼的，不知道要多少天）
 #学习ing!!!
-这是一张day3的图片![image](https://github.com/siwifttiger/myOS/image/day3.png)
+这是一张day3的图片
+![image](https://github.com/siwifttiger/myOS/image/day3.png)
 ##day3文件说明
 ###test.asm 和 test2.asm分别为两个用户程序，test.asm显示hello world test2.asm 设置显卡模式
 ###两个test的bin文件是编译出来的二进制文件，要写入软盘
@@ -10,4 +11,5 @@ ubuntu下30天自制操作系统（#吹牛逼的，不知道要多少天）
 
 ####浪费了两天时间，还是没能建立起自己在linux下的开发环境，后来利用作者的工具，只用简单修改以下Makefile就能轻松运行，简直想死，还是用作者的工具进行开发吧，等读完一遍后试试自己来搭建环境
 
-day4 的一张截图![day4](https://github.com/siwifttiger/myOS/blob/master/image/day4.5.png)
+day4 的一张截图
+![day4](https://github.com/siwifttiger/myOS/blob/master/image/day4.5.png)
