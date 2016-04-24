@@ -11,5 +11,5 @@ ubuntu下30天自制操作系统（#吹牛逼的，不知道要多少天）
 
 ####浪费了两天时间，还是没能建立起自己在linux下的开发环境，后来利用作者的工具，只用简单修改以下Makefile就能轻松运行，简直想死，还是用作者的工具进行开发吧，等读完一遍后试试自己来搭建环境
 
-day4 的一张截图
+#####day4 的一张截图
 ![day4](https://github.com/siwifttiger/myOS/blob/master/image/day4.5.png)
