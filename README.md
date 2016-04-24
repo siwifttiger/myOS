@@ -1,8 +1,8 @@
 # myOS
 ubuntu下30天自制操作系统（#吹牛逼的，不知道要多少天）
 #学习ing!!!
-这是一张day3的图片
-![image](https://github.com/siwifttiger/myOS/image/day3.png)
+######这是一张day3的图片
+![image](https://github.com/siwifttiger/myOS/blob/master/image/day3.png)
 ##day3文件说明
 ###test.asm 和 test2.asm分别为两个用户程序，test.asm显示hello world test2.asm 设置显卡模式
 ###两个test的bin文件是编译出来的二进制文件，要写入软盘
