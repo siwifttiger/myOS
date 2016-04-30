@@ -61,7 +61,7 @@ img :
 	$(MAKE) haribote.img
 
 run :
-	../z_tools/make.exe img
+	../../z_tools/make.exe img
 	qemu-system-i386 -fda haribote.img	
 
 install :
